@@ -7,8 +7,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.seekbar.R;
@@ -38,12 +41,15 @@ public class SeekBarView extends View {
     // 实际更新的值，根据两个的坐标刷新布局
     private int leftWareX = 0; // 左边向上箭头的x坐标
     private int rightWareX = 0; // 右边向下箭头的x坐标
-    private int clickType = 0; // 手指落下在哪个箭头上，0：left，1：right
+    private int clickType = 0; // 手指落下在哪个箭头上，0：left，1：right, 2：outer
+    private boolean isUpdate; // 手指是否离开屏幕，true：在屏幕上，false：离开
 
     private Paint paint;
 
     private Bitmap upwardBitmap;
     private Bitmap downwardBitmap;
+
+    private SeekBarUpdateListener updateListener;
 
     public SeekBarView(Context context) throws Exception {
         this(context, null);
@@ -125,7 +131,9 @@ public class SeekBarView extends View {
         super.onDraw(canvas);
 
         drawSeekBar(canvas);
-        drawTextShow("0", clickType, showTextY, canvas);
+        if (isUpdate) {
+            drawTextShow(clickType, showTextY, canvas);
+        }
         drawIndicator(leftWareX, upWareY, upwardBitmap, canvas);
         drawIndicator(rightWareX, downWareY, downwardBitmap, canvas);
     }
@@ -135,10 +143,13 @@ public class SeekBarView extends View {
      */
     private void drawSeekBar(Canvas canvas) {
         int width = getWidth();
+        int height = getHeight();
         int lastWidth = width - DEFAULT_PADDING_SPACING * 2; // 计算剩余的宽度
 
+        resetPaint(Color.GRAY, DEFAULT_SEEK_BAR_HEIGHT, Paint.Style.FILL);
+        canvas.drawLine(DEFAULT_PADDING_SPACING, height / 2 + DEFAULT_TEXT_HEIGHT, width - DEFAULT_PADDING_SPACING, height / 2 + DEFAULT_TEXT_HEIGHT, paint);
         resetPaint(Color.RED, DEFAULT_SEEK_BAR_HEIGHT, Paint.Style.FILL);
-        canvas.drawLine(DEFAULT_PADDING_SPACING, seekBarY, width - DEFAULT_PADDING_SPACING, seekBarY, paint);
+        canvas.drawLine(leftWareX, seekBarY, rightWareX, seekBarY, paint);
 
         int num = (maxValue - minValue) / spacingValue; // 计算出多少个间隔
         int spacingWidth = lastWidth / num; // 一个间距占的宽度
@@ -178,7 +189,7 @@ public class SeekBarView extends View {
      * 滑动过程中刻度会跟着显示
      * 跟着当前指示针的位置显示
      */
-    private void drawTextShow(String text, int clickType, int y, Canvas canvas) {
+    private void drawTextShow(int clickType, int y, Canvas canvas) {
         resetPaint(Color.RED, 2, Paint.Style.FILL);
         int x;
         if (clickType == 0) {
@@ -186,6 +197,8 @@ public class SeekBarView extends View {
         } else {
             x = rightWareX;
         }
+        int current = getCurrentSeek(x);
+        String text = String.valueOf(current);
         canvas.drawText(text, x - getTextWidth(text) / 2, y, paint);
     }
 
@@ -206,5 +219,138 @@ public class SeekBarView extends View {
         paint.setStrokeWidth(width);
         paint.setStyle(style);
         paint.setTextSize(20);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (updateListener != null) {
+                    updateListener.onUpdateStart(leftWareX, rightWareX);
+                }
+                clickLocation(x, y);
+                setUpdate();
+                dispatchUpdate(MotionEvent.ACTION_DOWN);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                updateX((int) x);
+                dispatchUpdate(MotionEvent.ACTION_MOVE);
+                break;
+            case MotionEvent.ACTION_UP:
+                isUpdate = false;
+                postInvalidate();
+                dispatchUpdate(MotionEvent.ACTION_UP);
+                break;
+        }
+        return true;
+    }
+
+    private void setUpdate() {
+        if (clickType == 0 || clickType == 1) {
+            isUpdate = true;
+        }
+    }
+
+    private void updateX(int x) {
+        if (x <= DEFAULT_PADDING_SPACING) { // 超出左边界
+            if (clickType == 0) {
+                leftWareX = DEFAULT_PADDING_SPACING;
+            } else if (clickType == 1) {
+                rightWareX = DEFAULT_PADDING_SPACING;
+            }
+        } else if (x >= getWidth() - DEFAULT_PADDING_SPACING) { // 超出右边界
+            if (clickType == 0) {
+                leftWareX = getWidth() - DEFAULT_PADDING_SPACING;
+            } else if (clickType == 1) {
+                rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
+            }
+        } else {
+            int resultX = 0;
+            if (clickType == 0) {
+                resultX = leftWareX;
+                leftWareX = x;
+            } else if (clickType == 1) {
+                resultX = rightWareX;
+                rightWareX = x;
+            }
+            if (leftWareX + 30 < rightWareX) { // 左边超过右边的情况
+
+            } else {
+                if (clickType == 0) {
+                    leftWareX = resultX;
+                } else if (clickType == 1) {
+                    rightWareX = resultX;
+                }
+            }
+        }
+//        Log.e("zgf", "========" + x + "=====" + leftWareX + "=====" + rightWareX);
+        postInvalidate();
+    }
+
+    private void dispatchUpdate(int event) {
+        int left = getCurrentSeek(leftWareX);
+        int right = getCurrentSeek(rightWareX);
+        switch (event) {
+            case MotionEvent.ACTION_DOWN:
+                if (updateListener != null) {
+                    updateListener.onUpdateStart(left, right);
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (updateListener != null) {
+                    updateListener.onUpdate(left, right);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (updateListener != null) {
+                    updateListener.onUpdateEnd(left, right);
+                }
+                break;
+        }
+    }
+
+    /**
+     * 计算当前进度值
+     */
+    private int getCurrentSeek(int x) {
+        float ratio = (float)(x - DEFAULT_PADDING_SPACING) / (float)(getWidth() - 2 * DEFAULT_PADDING_SPACING);
+        return (int) (ratio * (maxValue - minValue));
+    }
+
+    /**
+     * 判断是否是点击到指示器的范围内
+     * 如果没有点击到范围内不刷新view
+     */
+    private void clickLocation(float x, float y) {
+        RectF leftRect = new RectF(leftWareX - upwardBitmap.getWidth() / 2, upWareY, leftWareX + upwardBitmap.getWidth() / 2, upWareY + upwardBitmap.getHeight());
+        RectF rightRect = new RectF(rightWareX - downwardBitmap.getWidth() / 2, downWareY, rightWareX + downwardBitmap.getWidth() / 2, downWareY + downwardBitmap.getHeight());
+
+        if (leftRect.contains(x, y)) {
+            clickType = 0;
+        } else if (rightRect.contains(x, y)) {
+            clickType = 1;
+        } else {
+            clickType = 2;
+        }
+    }
+
+    /**
+     * 监听进度
+     */
+    public interface SeekBarUpdateListener {
+        // 手指点击指示器
+        void onUpdateStart(int left, int right);
+
+        // 滑动，指示器滑动过程
+        void onUpdate(int left, int right);
+
+        // 手指离开
+        void onUpdateEnd(int left, int right);
+    }
+
+    public void setOnSeekBarUpdateListener(SeekBarUpdateListener listener) {
+        updateListener = listener;
     }
 }

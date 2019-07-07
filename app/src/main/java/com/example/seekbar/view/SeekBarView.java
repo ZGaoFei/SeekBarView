@@ -1,5 +1,6 @@
 package com.example.seekbar.view;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ public class SeekBarView extends View {
     private static final int DEFAULT_SEEK_BAR_HEIGHT = 20; // 默认进度条的高度
     private static final int DEFAULT_PADDING_SPACING = 40; // 默认左右的padding值
     private static final int DEFAULT_SPACE_HEIGHT = 20; // 默认刻度线的高度
+    private static final int DEFAULT_LEFT_RIGHT_SPACE = 20; // 默认刻度线的高度
 
     private int minValue;
     private int maxValue;
@@ -43,6 +45,11 @@ public class SeekBarView extends View {
     private int rightWareX = 0; // 右边向下箭头的x坐标
     private int clickType = 0; // 手指落下在哪个箭头上，0：left，1：right, 2：outer
     private boolean isUpdate; // 手指是否离开屏幕，true：在屏幕上，false：离开
+    private int[] spacings; // 每个间距的集合
+    private int lastWidth; // 除去两边间距后剩余的宽度
+    private int oneSpace; // 一个刻度的长度
+    private int left;
+    private int right;
 
     private Paint paint;
 
@@ -115,8 +122,14 @@ public class SeekBarView extends View {
         upWareY = seekBarY;
         downWareY = seekBarY - downwardBitmap.getHeight();
         showTextY = seekBarY - downwardBitmap.getHeight() - DEFAULT_TEXT_HEIGHT;
-        leftWareX = DEFAULT_PADDING_SPACING;
-        rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
+        lastWidth = getWidth() - DEFAULT_PADDING_SPACING * 2;
+        setLeft();
+        setRight();
+        if (spacings != null && spacings.length > 0) {
+            oneSpace = lastWidth / spacings.length;
+        } else {
+            oneSpace = lastWidth / ((maxValue - minValue) / spacingValue);
+        }
         setMeasuredDimension(width, height);
     }
 
@@ -131,6 +144,7 @@ public class SeekBarView extends View {
         super.onDraw(canvas);
 
         drawSeekBar(canvas);
+        drawSpace(canvas);
         if (isUpdate) {
             drawTextShow(clickType, showTextY, canvas);
         }
@@ -144,29 +158,41 @@ public class SeekBarView extends View {
     private void drawSeekBar(Canvas canvas) {
         int width = getWidth();
         int height = getHeight();
-        int lastWidth = width - DEFAULT_PADDING_SPACING * 2; // 计算剩余的宽度
 
+        // 画进度条的背景
         resetPaint(Color.GRAY, DEFAULT_SEEK_BAR_HEIGHT, Paint.Style.FILL);
         canvas.drawLine(DEFAULT_PADDING_SPACING, height / 2 + DEFAULT_TEXT_HEIGHT, width - DEFAULT_PADDING_SPACING, height / 2 + DEFAULT_TEXT_HEIGHT, paint);
+        // 画可变化的进度条
         resetPaint(Color.RED, DEFAULT_SEEK_BAR_HEIGHT, Paint.Style.FILL);
         canvas.drawLine(leftWareX, seekBarY, rightWareX, seekBarY, paint);
-
-        int num = (maxValue - minValue) / spacingValue; // 计算出多少个间隔
-        int spacingWidth = lastWidth / num; // 一个间距占的宽度
-        for (int i = 1; i < num; i++) {
-            drawSpace(i * spacingWidth + DEFAULT_PADDING_SPACING, seekBarY - DEFAULT_SEEK_BAR_HEIGHT / 2 - DEFAULT_SPACE_HEIGHT, canvas);
-            String text = String.valueOf(minValue + spacingValue * i);
-            // 画刻度值，x轴减去字体宽度的一半，字体居中
-            drawSpaceText(text, i * spacingWidth + DEFAULT_PADDING_SPACING, seekBarY - DEFAULT_SEEK_BAR_HEIGHT / 2 - DEFAULT_SPACE_HEIGHT, canvas);
-        }
     }
 
     /**
      * 画刻度线
      */
-    private void drawSpace(int x, int y, Canvas canvas) {
-        resetPaint(Color.GRAY, 2, Paint.Style.FILL);
-        canvas.drawLine(x, y, x, y + DEFAULT_SPACE_HEIGHT, paint);
+    private void drawSpace(Canvas canvas) {
+        int num;
+        if (spacings == null || spacings.length == 0) {
+            num = (maxValue - minValue) / spacingValue; // 计算出多少个间隔
+        } else {
+            num = spacings.length;
+        }
+
+        int spacingAll = minValue;
+        for (int i = 1; i < num; i++) {
+            resetPaint(Color.GRAY, 2, Paint.Style.FILL);
+            canvas.drawLine(i * oneSpace + DEFAULT_PADDING_SPACING, seekBarY - DEFAULT_SEEK_BAR_HEIGHT / 2 - DEFAULT_SPACE_HEIGHT, i * oneSpace + DEFAULT_PADDING_SPACING, seekBarY - DEFAULT_SEEK_BAR_HEIGHT / 2, paint);
+
+            String text;
+            if (spacings == null || spacings.length == 0) {
+                text = String.valueOf(minValue + spacingValue * i);
+            } else {
+                spacingAll += spacings[i - 1];
+                text = String.valueOf(spacingAll);
+            }
+            // 画刻度值，x轴减去字体宽度的一半，字体居中
+            drawSpaceText(text, i * oneSpace + DEFAULT_PADDING_SPACING, seekBarY - DEFAULT_SEEK_BAR_HEIGHT / 2 - DEFAULT_SPACE_HEIGHT, canvas);
+        }
     }
 
     /**
@@ -253,6 +279,9 @@ public class SeekBarView extends View {
         }
     }
 
+    /**
+     * 待完善 TODO
+     */
     private void updateX(int x) {
         if (x <= DEFAULT_PADDING_SPACING) { // 超出左边界
             if (clickType == 0) {
@@ -285,7 +314,7 @@ public class SeekBarView extends View {
                 }
             }
         }
-//        Log.e("zgf", "========" + x + "=====" + leftWareX + "=====" + rightWareX);
+        // Log.e("zgf", "========" + x + "=====" + leftWareX + "=====" + rightWareX);
         postInvalidate();
     }
 
@@ -315,8 +344,32 @@ public class SeekBarView extends View {
      * 计算当前进度值
      */
     private int getCurrentSeek(int x) {
-        float ratio = (float)(x - DEFAULT_PADDING_SPACING) / (float)(getWidth() - 2 * DEFAULT_PADDING_SPACING);
-        return (int) (ratio * (maxValue - minValue));
+        if (spacings == null || spacings.length == 0) {
+            float ratio = (float) (x - DEFAULT_PADDING_SPACING) / (float) (getWidth() - 2 * DEFAULT_PADDING_SPACING);
+            return (int) (ratio * (maxValue - minValue));
+        } else {
+            // 计算出当前滑动到第几个刻度上
+            float num = (float) (x - DEFAULT_PADDING_SPACING) / oneSpace;
+            int intNum = (int) Math.floor(num);
+
+            // 计算出当前的x轴到上一个刻度的距离
+            int resultText = minValue;
+            int currentX = x - DEFAULT_PADDING_SPACING;
+            for (int i = 0; i < intNum; i++) {
+                resultText += spacings[i];
+                currentX -= oneSpace;
+            }
+
+            // 如果计算的intNum值等于spacings的长度，说明是最大刻度值
+            // 计算当前刻度内的值
+            int currentXSpace = 0;
+            if (intNum < spacings.length) {
+                currentXSpace = (int) ((float) currentX / (float) oneSpace * spacings[intNum]);
+            }
+            resultText += currentXSpace;
+
+            return resultText;
+        }
     }
 
     /**
@@ -334,6 +387,90 @@ public class SeekBarView extends View {
         } else {
             clickType = 2;
         }
+    }
+
+    /**
+     * 设置每个可变长度的间距值
+     * 如果同时设置默认间距值大小和可变长度间距值，则以可变长度间距值为准
+     * 当间距和加上最小值大于最大值时选择一种适配方式
+     * 1、throw exception
+     * 2、更新最大值为当前间距和加上最小值
+     */
+    public void setSpacing(int min, int max, int... spacings) throws Exception {
+        if (min >= max) {
+            // 抛出异常后，下面的内容就不会再执行
+            throw new Exception("SeekBarView max is must big min value!");
+        } else {
+            minValue = min;
+            maxValue = max;
+        }
+        int result = 0;
+        for (int i = 0; i < spacings.length; i++) {
+            result += spacings[i];
+        }
+        maxValue = result;
+        this.spacings = spacings;
+        postInvalidate();
+    }
+
+    public void setCurrentLeft(int left) {
+        if (left >= maxValue || left < minValue) {
+            return;
+        }
+        this.left = left;
+        requestLayout();
+        postInvalidate();
+    }
+
+    private void setLeft() {
+        if (left > 0) {
+            if (spacings == null || spacings.length == 0) {
+                float num = (float) (left) / maxValue;
+                leftWareX = (int) (num * lastWidth + DEFAULT_PADDING_SPACING);
+            } else {
+                // TODO: 2019-07-07 可变刻度设置
+            }
+        } else {
+            leftWareX = DEFAULT_PADDING_SPACING;
+        }
+    }
+
+    public void setCurrentRight(int right) {
+        if (right > maxValue || right <= minValue) {
+            return;
+        }
+        this.right = right;
+        requestLayout();
+        postInvalidate();
+    }
+
+    private void setRight() {
+        if (right > 0) {
+            if (spacings == null || spacings.length == 0) {
+                float num = (float) (right) / maxValue;
+                rightWareX = (int) (num * lastWidth + DEFAULT_PADDING_SPACING);
+            } else {
+                // TODO: 2019-07-07 可变刻度设置
+            }
+        } else {
+            rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
+        }
+    }
+
+    public void setCurrentLeftAndRight(int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        if (left >= maxValue || left < minValue) {
+            return;
+        }
+        if (right > maxValue || right <= minValue) {
+            return;
+        }
+        this.left = left;
+        this.right = right;
+        requestLayout();
+        postInvalidate();
     }
 
     /**

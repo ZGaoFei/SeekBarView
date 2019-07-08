@@ -6,6 +6,8 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="zgf" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
@@ -18,9 +20,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,11 +42,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
+            <state relative-caret-position="78">
+              <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
               <folding>
-                <element signature="e#1794#1975#0" expanded="true" />
-                <element signature="e#1974#1975#0" expanded="true" />
+                <element signature="e#1893#2172#0" expanded="true" />
+                <element signature="e#2171#2172#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -63,28 +65,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="444" column="41" selection-start-line="444" selection-start-column="41" selection-end-line="444" selection-end-column="41" />
-              <folding>
-                <element signature="e#1809#1898#0" />
-                <element signature="e#1904#2017#0" />
-                <element signature="e#2023#2196#0" />
-                <element signature="e#2202#3112#0" />
-                <element signature="e#4493#4677#0" />
-                <element signature="e#5380#5943#0" />
-                <element signature="e#6416#6663#0" />
-                <element signature="e#6669#6874#0" />
-                <element signature="e#7671#8133#0" />
-                <element signature="e#7348#7541#0" />
-                <element signature="e#7547#7808#0" />
-                <element signature="e#7814#8681#0" />
-                <element signature="e#8687#8806#0" />
-                <element signature="e#8812#10065#0" />
-                <element signature="e#10894#11636#0" />
-                <element signature="e#11063#11713#0" />
-                <element signature="e#11719#11992#0" />
-                <element signature="e#11998#12111#0" />
-              </folding>
+            <state relative-caret-position="6647">
+              <caret line="406" column="30" lean-forward="true" selection-start-line="406" selection-start-column="30" selection-end-line="406" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -103,10 +85,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -194,9 +176,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -300,9 +282,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.27753934" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.22317597" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
@@ -311,7 +294,7 @@
       <window_info id="Capture Tool" order="7" />
       <window_info id="Favorites" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="0" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="1" visible="true" weight="0.5577428" />
+      <window_info anchor="bottom" id="Logcat" order="1" weight="0.5577428" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Android Profiler" order="3" />
       <window_info anchor="bottom" id="Debug" order="4" />
@@ -352,18 +335,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="408">
-            <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
-          </first_editor>
-          <second_editor>
-            <markdownNavigatorState />
-          </second_editor>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/animation/KeyframeSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="262">
@@ -395,39 +366,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
+        <state relative-caret-position="78">
+          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
           <folding>
-            <element signature="e#1794#1975#0" expanded="true" />
-            <element signature="e#1974#1975#0" expanded="true" />
+            <element signature="e#1893#2172#0" expanded="true" />
+            <element signature="e#2171#2172#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="646">
+            <caret line="38" column="36" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="444" column="41" selection-start-line="444" selection-start-column="41" selection-end-line="444" selection-end-column="41" />
-          <folding>
-            <element signature="e#1809#1898#0" />
-            <element signature="e#1904#2017#0" />
-            <element signature="e#2023#2196#0" />
-            <element signature="e#2202#3112#0" />
-            <element signature="e#4493#4677#0" />
-            <element signature="e#5380#5943#0" />
-            <element signature="e#6416#6663#0" />
-            <element signature="e#6669#6874#0" />
-            <element signature="e#7671#8133#0" />
-            <element signature="e#7348#7541#0" />
-            <element signature="e#7547#7808#0" />
-            <element signature="e#7814#8681#0" />
-            <element signature="e#8687#8806#0" />
-            <element signature="e#8812#10065#0" />
-            <element signature="e#10894#11636#0" />
-            <element signature="e#11063#11713#0" />
-            <element signature="e#11719#11992#0" />
-            <element signature="e#11998#12111#0" />
-          </folding>
+        <state relative-caret-position="6647">
+          <caret line="406" column="30" lean-forward="true" selection-start-line="406" selection-start-column="30" selection-end-line="406" selection-end-column="30" />
         </state>
       </provider>
     </entry>

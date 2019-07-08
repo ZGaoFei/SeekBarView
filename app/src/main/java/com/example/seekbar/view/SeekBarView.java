@@ -123,13 +123,14 @@ public class SeekBarView extends View {
         downWareY = seekBarY - downwardBitmap.getHeight();
         showTextY = seekBarY - downwardBitmap.getHeight() - DEFAULT_TEXT_HEIGHT;
         lastWidth = getWidth() - DEFAULT_PADDING_SPACING * 2;
-        setLeft();
-        setRight();
         if (spacings != null && spacings.length > 0) {
             oneSpace = lastWidth / spacings.length;
         } else {
             oneSpace = lastWidth / ((maxValue - minValue) / spacingValue);
         }
+        setLeft();
+        setRight();
+
         setMeasuredDimension(width, height);
     }
 
@@ -281,6 +282,7 @@ public class SeekBarView extends View {
 
     /**
      * 待完善 TODO
+     * 边界值问题
      */
     private void updateX(int x) {
         if (x <= DEFAULT_PADDING_SPACING) { // 超出左边界
@@ -296,23 +298,28 @@ public class SeekBarView extends View {
                 rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
             }
         } else {
-            int resultX = 0;
             if (clickType == 0) {
-                resultX = leftWareX;
-                leftWareX = x;
+                if (x + 30 > rightWareX || x <= DEFAULT_PADDING_SPACING) {
+                    leftWareX = rightWareX - 30;
+                } else {
+                    leftWareX = x;
+                }
             } else if (clickType == 1) {
-                resultX = rightWareX;
-                rightWareX = x;
-            }
-            if (leftWareX + 30 < rightWareX) { // 左边超过右边的情况
-
-            } else {
-                if (clickType == 0) {
-                    leftWareX = resultX;
-                } else if (clickType == 1) {
-                    rightWareX = resultX;
+                if (x - 30 < leftWareX || x >= lastWidth + DEFAULT_PADDING_SPACING) {
+                    rightWareX = leftWareX + 30;
+                } else {
+                    rightWareX = x;
                 }
             }
+//            if (leftWareX + 30 < rightWareX) { // 左边超过右边的情况
+//
+//            } else {
+//                if (clickType == 0) {
+//                    leftWareX = resultX;
+//                } else if (clickType == 1) {
+//                    rightWareX = resultX;
+//                }
+//            }
         }
         // Log.e("zgf", "========" + x + "=====" + leftWareX + "=====" + rightWareX);
         postInvalidate();
@@ -393,18 +400,11 @@ public class SeekBarView extends View {
      * 设置每个可变长度的间距值
      * 如果同时设置默认间距值大小和可变长度间距值，则以可变长度间距值为准
      * 当间距和加上最小值大于最大值时选择一种适配方式
-     * 1、throw exception
-     * 2、更新最大值为当前间距和加上最小值
+     * 最大值为当前间距和加上最小值
      */
-    public void setSpacing(int min, int max, int... spacings) throws Exception {
-        if (min >= max) {
-            // 抛出异常后，下面的内容就不会再执行
-            throw new Exception("SeekBarView max is must big min value!");
-        } else {
-            minValue = min;
-            maxValue = max;
-        }
-        int result = 0;
+    public void setSpacing(int min, int... spacings) {
+        minValue = min;
+        int result = minValue;
         for (int i = 0; i < spacings.length; i++) {
             result += spacings[i];
         }
@@ -415,7 +415,7 @@ public class SeekBarView extends View {
 
     public void setCurrentLeft(int left) {
         if (left >= maxValue || left < minValue) {
-            return;
+            left = minValue;
         }
         this.left = left;
         requestLayout();
@@ -428,7 +428,28 @@ public class SeekBarView extends View {
                 float num = (float) (left) / maxValue;
                 leftWareX = (int) (num * lastWidth + DEFAULT_PADDING_SPACING);
             } else {
-                // TODO: 2019-07-07 可变刻度设置
+                // 从左到右计算出当前值属于哪个刻度内
+                int position = 0;
+                int result = minValue;
+                for (int i = 0; i < spacings.length; i++) {
+                    result += spacings[i];
+                    if (result >= left) {
+                        position = i;
+                        break;
+                    }
+                }
+                // 计算此刻度之前的总和长度px
+                int resultPx = oneSpace * position;
+
+                // 计算当前刻度内的长度px
+                int lastLeft = left - minValue;
+                for (int i = 0; i < position; i++) {
+                    lastLeft -= spacings[i];
+                }
+                // 总的px
+                resultPx += (float) lastLeft / (float) spacings[position] * oneSpace;
+                // 加上前面的默认间距值
+                leftWareX = resultPx + DEFAULT_PADDING_SPACING;
             }
         } else {
             leftWareX = DEFAULT_PADDING_SPACING;
@@ -437,7 +458,7 @@ public class SeekBarView extends View {
 
     public void setCurrentRight(int right) {
         if (right > maxValue || right <= minValue) {
-            return;
+            right = maxValue;
         }
         this.right = right;
         requestLayout();
@@ -450,7 +471,24 @@ public class SeekBarView extends View {
                 float num = (float) (right) / maxValue;
                 rightWareX = (int) (num * lastWidth + DEFAULT_PADDING_SPACING);
             } else {
-                // TODO: 2019-07-07 可变刻度设置
+                // 同left
+                int position = 0;
+                int result = minValue;
+                for (int i = 0; i < spacings.length; i++) {
+                    result += spacings[i];
+                    if (result >= right) {
+                        position = i;
+                        break;
+                    }
+                }
+                int resultPx = oneSpace * position;
+
+                int lastRight = right - minValue;
+                for (int i = 0; i < position; i++) {
+                    lastRight -= spacings[i];
+                }
+                resultPx += (float) lastRight / (float) spacings[position] * oneSpace;
+                rightWareX = resultPx + DEFAULT_PADDING_SPACING;
             }
         } else {
             rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
@@ -462,10 +500,10 @@ public class SeekBarView extends View {
             return;
         }
         if (left >= maxValue || left < minValue) {
-            return;
+            left = minValue;
         }
         if (right > maxValue || right <= minValue) {
-            return;
+            right = maxValue;
         }
         this.left = left;
         this.right = right;

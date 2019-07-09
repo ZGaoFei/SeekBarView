@@ -31,7 +31,10 @@ public class SeekBarView extends View {
     private static final int DEFAULT_SEEK_BAR_HEIGHT = 20; // 默认进度条的高度
     private static final int DEFAULT_PADDING_SPACING = 40; // 默认左右的padding值
     private static final int DEFAULT_SPACE_HEIGHT = 20; // 默认刻度线的高度
-    private static final int DEFAULT_LEFT_RIGHT_SPACE = 20; // 默认刻度线的高度
+    private static final int DEFAULT_LEFT_RIGHT_SPACE = 30; // 默认左右指示器的间距
+    private static final int CLICK_TYPE_LEFT = 0; // 点击左侧指示器
+    private static final int CLICK_TYPE_RIGHT = 1; // 点击右侧指示器
+    private static final int CLICK_TYPE_OUT = 2; // 点击外部区域
 
     private int minValue;
     private int maxValue;
@@ -43,7 +46,7 @@ public class SeekBarView extends View {
     // 实际更新的值，根据两个的坐标刷新布局
     private int leftWareX = 0; // 左边向上箭头的x坐标
     private int rightWareX = 0; // 右边向下箭头的x坐标
-    private int clickType = 0; // 手指落下在哪个箭头上，0：left，1：right, 2：outer
+    private int clickType = CLICK_TYPE_LEFT; // 手指落下在哪个箭头上，0：left，1：right, 2：outer
     private boolean isUpdate; // 手指是否离开屏幕，true：在屏幕上，false：离开
     private int[] spacings; // 每个间距的集合
     private int lastWidth; // 除去两边间距后剩余的宽度
@@ -82,13 +85,21 @@ public class SeekBarView extends View {
         if (spacingValue > maxValue - minValue) {
             throw new Exception("SeekBarView spacing is must min max-min value");
         }
+        int leftImageRes = a.getResourceId(R.styleable.SeekBarView_leftImage, 0);
+        int rightImageRes = a.getResourceId(R.styleable.SeekBarView_rightImage, 0);
         a.recycle();
 
         paint = new Paint();
         paint.setAntiAlias(true);
 
-        upwardBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_upward);
-        downwardBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_downward);
+        if (leftImageRes <= 0) {
+            leftImageRes = R.mipmap.icon_upward;
+        }
+        if (rightImageRes <= 0) {
+            rightImageRes = R.mipmap.icon_downward;
+        }
+        upwardBitmap = BitmapFactory.decodeResource(getResources(), leftImageRes);
+        downwardBitmap = BitmapFactory.decodeResource(getResources(), rightImageRes);
     }
 
     @Override
@@ -219,7 +230,7 @@ public class SeekBarView extends View {
     private void drawTextShow(int clickType, int y, Canvas canvas) {
         resetPaint(Color.RED, 2, Paint.Style.FILL);
         int x;
-        if (clickType == 0) {
+        if (clickType == CLICK_TYPE_LEFT) {
             x = leftWareX;
         } else {
             x = rightWareX;
@@ -275,53 +286,41 @@ public class SeekBarView extends View {
     }
 
     private void setUpdate() {
-        if (clickType == 0 || clickType == 1) {
+        if (clickType == CLICK_TYPE_LEFT || clickType == CLICK_TYPE_RIGHT) {
             isUpdate = true;
         }
     }
 
     /**
-     * 待完善 TODO
-     * 边界值问题
+     * 现在左右指示器的滑动边界
+     * 左右不能交叉
      */
     private void updateX(int x) {
-        if (x <= DEFAULT_PADDING_SPACING) { // 超出左边界
-            if (clickType == 0) {
+        if (clickType == CLICK_TYPE_LEFT) {
+            if (x <= DEFAULT_PADDING_SPACING) { // 超出左边界
                 leftWareX = DEFAULT_PADDING_SPACING;
-            } else if (clickType == 1) {
-                rightWareX = DEFAULT_PADDING_SPACING;
-            }
-        } else if (x >= getWidth() - DEFAULT_PADDING_SPACING) { // 超出右边界
-            if (clickType == 0) {
-                leftWareX = getWidth() - DEFAULT_PADDING_SPACING;
-            } else if (clickType == 1) {
-                rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
-            }
-        } else {
-            if (clickType == 0) {
-                if (x + 30 > rightWareX || x <= DEFAULT_PADDING_SPACING) {
-                    leftWareX = rightWareX - 30;
+            } else if (x >= getWidth() - DEFAULT_PADDING_SPACING) { // 超出右边界
+                leftWareX = rightWareX - DEFAULT_LEFT_RIGHT_SPACE;
+            } else {
+                if (x + DEFAULT_LEFT_RIGHT_SPACE > rightWareX) {
+                    leftWareX = rightWareX - DEFAULT_LEFT_RIGHT_SPACE;
                 } else {
                     leftWareX = x;
                 }
-            } else if (clickType == 1) {
-                if (x - 30 < leftWareX || x >= lastWidth + DEFAULT_PADDING_SPACING) {
-                    rightWareX = leftWareX + 30;
+            }
+        } else if (clickType == CLICK_TYPE_RIGHT) {
+            if (x <= DEFAULT_PADDING_SPACING) { // 超出左边界
+                rightWareX = leftWareX + DEFAULT_LEFT_RIGHT_SPACE;
+            } else if (x >= getWidth() - DEFAULT_PADDING_SPACING) { // 超出右边界
+                rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
+            } else {
+                if (x - DEFAULT_LEFT_RIGHT_SPACE < leftWareX) {
+                    rightWareX = leftWareX + DEFAULT_LEFT_RIGHT_SPACE;
                 } else {
                     rightWareX = x;
                 }
             }
-//            if (leftWareX + 30 < rightWareX) { // 左边超过右边的情况
-//
-//            } else {
-//                if (clickType == 0) {
-//                    leftWareX = resultX;
-//                } else if (clickType == 1) {
-//                    rightWareX = resultX;
-//                }
-//            }
         }
-        // Log.e("zgf", "========" + x + "=====" + leftWareX + "=====" + rightWareX);
         postInvalidate();
     }
 
@@ -388,11 +387,11 @@ public class SeekBarView extends View {
         RectF rightRect = new RectF(rightWareX - downwardBitmap.getWidth() / 2, downWareY, rightWareX + downwardBitmap.getWidth() / 2, downWareY + downwardBitmap.getHeight());
 
         if (leftRect.contains(x, y)) {
-            clickType = 0;
+            clickType = CLICK_TYPE_LEFT;
         } else if (rightRect.contains(x, y)) {
-            clickType = 1;
+            clickType = CLICK_TYPE_RIGHT;
         } else {
-            clickType = 2;
+            clickType = CLICK_TYPE_OUT;
         }
     }
 

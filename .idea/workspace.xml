@@ -6,7 +6,6 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="zgf" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
@@ -39,11 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
+            <state relative-caret-position="323">
+              <caret line="27" column="43" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -51,23 +50,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="43" lean-forward="true" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
+            <state relative-caret-position="442">
+              <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
             </state>
           </provider>
           <provider editor-type-id="android-designer2" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="100" column="82" lean-forward="true" selection-start-line="100" selection-start-column="82" selection-end-line="100" selection-end-column="82" />
+            <state relative-caret-position="294">
+              <caret line="306" column="36" lean-forward="true" selection-start-line="306" selection-start-column="36" selection-end-line="306" selection-end-column="36" />
               <folding>
                 <element signature="e#2085#2174#0" />
                 <element signature="e#2180#2293#0" />
                 <element signature="e#2299#2472#0" />
-                <element signature="e#3394#4970#0" />
                 <element signature="e#4976#5160#0" />
                 <element signature="e#5166#5536#0" />
                 <element signature="e#5542#6105#0" />
@@ -79,16 +77,16 @@
                 <element signature="e#8354#8615#0" />
                 <element signature="e#8621#9488#0" />
                 <element signature="e#9494#9613#0" />
+                <element signature="e#12359#13101#0" />
+                <element signature="e#13107#14199#0" />
+                <element signature="e#14205#14897#0" />
+                <element signature="e#15334#15545#0" />
+                <element signature="e#15086#16040#0" />
+                <element signature="e#16046#16264#0" />
+                <element signature="e#16270#17116#0" />
+                <element signature="e#18099#18509#0" />
+                <element signature="e#17522#17795#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="51" lean-forward="true" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -102,6 +100,9 @@
       <find>30</find>
       <find>0</find>
       <find>clickType</find>
+      <find>+= oneSpace</find>
+      <find>DEFAULT_LEFT_RIGHT_SPACE</find>
+      <find>distancePx</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -113,8 +114,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" />
       </list>
     </option>
   </component>
@@ -319,7 +320,7 @@
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.22317597" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.22317597" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
@@ -402,22 +403,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="51" lean-forward="true" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+        <state relative-caret-position="323">
+          <caret line="27" column="43" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="54" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="100" column="82" lean-forward="true" selection-start-line="100" selection-start-column="82" selection-end-line="100" selection-end-column="82" />
+        <state relative-caret-position="294">
+          <caret line="306" column="36" lean-forward="true" selection-start-line="306" selection-start-column="36" selection-end-line="306" selection-end-column="36" />
           <folding>
             <element signature="e#2085#2174#0" />
             <element signature="e#2180#2293#0" />
             <element signature="e#2299#2472#0" />
-            <element signature="e#3394#4970#0" />
             <element signature="e#4976#5160#0" />
             <element signature="e#5166#5536#0" />
             <element signature="e#5542#6105#0" />
@@ -429,22 +444,16 @@
             <element signature="e#8354#8615#0" />
             <element signature="e#8621#9488#0" />
             <element signature="e#9494#9613#0" />
+            <element signature="e#12359#13101#0" />
+            <element signature="e#13107#14199#0" />
+            <element signature="e#14205#14897#0" />
+            <element signature="e#15334#15545#0" />
+            <element signature="e#15086#16040#0" />
+            <element signature="e#16046#16264#0" />
+            <element signature="e#16270#17116#0" />
+            <element signature="e#18099#18509#0" />
+            <element signature="e#17522#17795#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="43" lean-forward="true" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
         </state>
       </provider>
     </entry>

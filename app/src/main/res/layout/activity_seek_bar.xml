@@ -25,7 +25,7 @@
         android:id="@+id/seek_bar_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:leftDistanceRight="10"
+        app:leftDistanceRight="20"
         app:min="0"
         app:max="100"
         app:spacing="10"/>

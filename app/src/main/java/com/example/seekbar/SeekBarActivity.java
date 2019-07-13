@@ -14,6 +14,7 @@ public class SeekBarActivity extends AppCompatActivity {
     private SeekBarView seekBarView;
     private TextView textView;
     private int i = 200;
+    private int j = 20;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SeekBarActivity.class));
@@ -25,7 +26,7 @@ public class SeekBarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_seek_bar);
         seekBarView = findViewById(R.id.seek_bar_view);
         seekBarView.setSpacing(20, 10, 20, 20, 30, 30, 40, 30);
-        // seekBarView.setCurrentLeft(180);
+        seekBarView.setCurrentLeft(45);
         seekBarView.setCurrentRight(200);
         // seekBarView.setCurrentLeftAndRight(20, 190);
         textView = findViewById(R.id.tv_seek_bar_show);
@@ -50,10 +51,13 @@ public class SeekBarActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // seekBarView.setCurrentLeft(i);
-                i -= 5;
-                seekBarView.setCurrentRight(i);
+//                j += 10;
+//                seekBarView.setCurrentLeft(j);
+//                i -= 5;
+//                seekBarView.setCurrentRight(i);
                 // seekBarView.setCurrentLeftAndRight(55, 65);
+
+                seekBarView.setBitmapSize(130, 130);
             }
         });
     }

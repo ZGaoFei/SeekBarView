@@ -19,9 +19,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,11 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="27" column="43" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
+            <state relative-caret-position="249">
+              <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -50,42 +50,43 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+            <state relative-caret-position="255">
+              <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
             </state>
           </provider>
           <provider editor-type-id="android-designer2" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="306" column="36" lean-forward="true" selection-start-line="306" selection-start-column="36" selection-end-line="306" selection-end-column="36" />
+            <state relative-caret-position="343">
+              <caret line="95" column="33" lean-forward="true" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
               <folding>
-                <element signature="e#2085#2174#0" />
-                <element signature="e#2180#2293#0" />
-                <element signature="e#2299#2472#0" />
-                <element signature="e#4976#5160#0" />
-                <element signature="e#5166#5536#0" />
-                <element signature="e#5542#6105#0" />
-                <element signature="e#6111#7217#0" />
-                <element signature="e#7223#7470#0" />
-                <element signature="e#7476#7681#0" />
-                <element signature="e#7687#8149#0" />
-                <element signature="e#8155#8348#0" />
-                <element signature="e#8354#8615#0" />
-                <element signature="e#8621#9488#0" />
-                <element signature="e#9494#9613#0" />
-                <element signature="e#12359#13101#0" />
-                <element signature="e#13107#14199#0" />
-                <element signature="e#14205#14897#0" />
-                <element signature="e#15334#15545#0" />
-                <element signature="e#15086#16040#0" />
-                <element signature="e#16046#16264#0" />
-                <element signature="e#16270#17116#0" />
-                <element signature="e#18099#18509#0" />
-                <element signature="e#17522#17795#0" />
+                <element signature="e#2383#2472#0" />
+                <element signature="e#2478#2591#0" />
+                <element signature="e#2597#2770#0" />
+                <element signature="e#5745#5929#0" />
+                <element signature="e#6311#6874#0" />
+                <element signature="e#6880#7986#0" />
+                <element signature="e#7992#8239#0" />
+                <element signature="e#8456#8932#0" />
+                <element signature="e#8938#9131#0" />
+                <element signature="e#9137#9398#0" />
+                <element signature="e#9404#10271#0" />
+                <element signature="e#10277#10425#0" />
+                <element signature="e#10431#12350#0" />
+                <element signature="e#11700#12442#0" />
+                <element signature="e#13104#14217#0" />
+                <element signature="e#13567#14259#0" />
+                <element signature="e#14265#14690#0" />
+                <element signature="e#16917#17327#0" />
+                <element signature="e#16506#16667#0" />
+                <element signature="e#16673#17846#0" />
+                <element signature="e#17852#18288#0" />
+                <element signature="e#18294#18684#0" />
+                <element signature="e#19080#19353#0" />
+                <element signature="e#19359#19472#0" />
               </folding>
             </state>
           </provider>
@@ -102,7 +103,12 @@
       <find>clickType</find>
       <find>+= oneSpace</find>
       <find>DEFAULT_LEFT_RIGHT_SPACE</find>
+      <find>spacingValue</find>
       <find>distancePx</find>
+      <find>distance</find>
+      <find>upwardBitmap</find>
+      <find>upWareY</find>
+      <find>leftWareX</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -111,11 +117,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java" />
       </list>
     </option>
   </component>
@@ -212,9 +218,9 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -403,13 +409,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="27" column="43" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -417,43 +416,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="15354" column="22" selection-start-line="15354" selection-start-column="22" selection-end-line="15354" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_seek_bar.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+        <state relative-caret-position="255">
+          <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/view/SeekBarView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="306" column="36" lean-forward="true" selection-start-line="306" selection-start-column="36" selection-end-line="306" selection-end-column="36" />
+        <state relative-caret-position="343">
+          <caret line="95" column="33" lean-forward="true" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
           <folding>
-            <element signature="e#2085#2174#0" />
-            <element signature="e#2180#2293#0" />
-            <element signature="e#2299#2472#0" />
-            <element signature="e#4976#5160#0" />
-            <element signature="e#5166#5536#0" />
-            <element signature="e#5542#6105#0" />
-            <element signature="e#6111#7217#0" />
-            <element signature="e#7223#7470#0" />
-            <element signature="e#7476#7681#0" />
-            <element signature="e#7687#8149#0" />
-            <element signature="e#8155#8348#0" />
-            <element signature="e#8354#8615#0" />
-            <element signature="e#8621#9488#0" />
-            <element signature="e#9494#9613#0" />
-            <element signature="e#12359#13101#0" />
-            <element signature="e#13107#14199#0" />
-            <element signature="e#14205#14897#0" />
-            <element signature="e#15334#15545#0" />
-            <element signature="e#15086#16040#0" />
-            <element signature="e#16046#16264#0" />
-            <element signature="e#16270#17116#0" />
-            <element signature="e#18099#18509#0" />
-            <element signature="e#17522#17795#0" />
+            <element signature="e#2383#2472#0" />
+            <element signature="e#2478#2591#0" />
+            <element signature="e#2597#2770#0" />
+            <element signature="e#5745#5929#0" />
+            <element signature="e#6311#6874#0" />
+            <element signature="e#6880#7986#0" />
+            <element signature="e#7992#8239#0" />
+            <element signature="e#8456#8932#0" />
+            <element signature="e#8938#9131#0" />
+            <element signature="e#9137#9398#0" />
+            <element signature="e#9404#10271#0" />
+            <element signature="e#10277#10425#0" />
+            <element signature="e#10431#12350#0" />
+            <element signature="e#11700#12442#0" />
+            <element signature="e#13104#14217#0" />
+            <element signature="e#13567#14259#0" />
+            <element signature="e#14265#14690#0" />
+            <element signature="e#16917#17327#0" />
+            <element signature="e#16506#16667#0" />
+            <element signature="e#16673#17846#0" />
+            <element signature="e#17852#18288#0" />
+            <element signature="e#18294#18684#0" />
+            <element signature="e#19080#19353#0" />
+            <element signature="e#19359#19472#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/seekbar/SeekBarActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
         </state>
       </provider>
     </entry>

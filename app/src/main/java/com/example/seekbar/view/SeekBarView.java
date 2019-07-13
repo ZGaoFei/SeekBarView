@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.TextUtils;
@@ -31,7 +32,7 @@ public class SeekBarView extends View {
     private static final int DEFAULT_SEEK_BAR_HEIGHT = 20; // 默认进度条的高度
     private static final int DEFAULT_PADDING_SPACING = 40; // 默认左右的padding值
     private static final int DEFAULT_SPACE_HEIGHT = 20; // 默认刻度线的高度
-    private static final int DEFAULT_LEFT_RIGHT_SPACE = 20; // 默认左右指示器的间距
+    private static final int DEFAULT_LEFT_RIGHT_SPACE = 5; // 默认左右指示器的间距
     private static final int CLICK_TYPE_LEFT = 0; // 点击左侧指示器
     private static final int CLICK_TYPE_RIGHT = 1; // 点击右侧指示器
     private static final int CLICK_TYPE_OUT = 2; // 点击外部区域
@@ -54,7 +55,6 @@ public class SeekBarView extends View {
     private int left;
     private int right;
     private int distance; // 左右指示器的距离
-    private int[] distancePx; // distance转化为spacings各个间距内的像素值
 
     private Paint paint;
 
@@ -142,10 +142,8 @@ public class SeekBarView extends View {
         } else {
             oneSpace = lastWidth / ((maxValue - minValue) / spacingValue);
         }
-        setLeft();
-        setRight();
-
-        setMaxLeftDistanceRight();
+        setSeekLeft();
+        setSeekRight();
 
         setMeasuredDimension(width, height);
     }
@@ -301,20 +299,19 @@ public class SeekBarView extends View {
      * 左右不能交叉
      * <p>
      * 精华
-     *
-     * 设置间距有点问题，也有点复杂，左右指示器同一刻度可以，不同刻度有问题
      */
     private void updateX(int x) {
-        int num = getCurrent(x);
-        int space = distancePx[num];
+        int space = getCurrentDistancePx();
         if (clickType == CLICK_TYPE_LEFT) {
             if (x <= DEFAULT_PADDING_SPACING) { // 超出左边界
                 leftWareX = DEFAULT_PADDING_SPACING;
             } else if (x >= getWidth() - DEFAULT_PADDING_SPACING) { // 超出右边界
                 leftWareX = rightWareX - space;
             } else {
-                if (x + space > rightWareX) {
-                    leftWareX = rightWareX - space;
+                int rightSeek = getCurrentSeek(rightWareX);
+                int currentSeek = getCurrentSeek(x);
+                if (currentSeek + distance > rightSeek) {
+                    leftWareX = rightWareX - getCurrentDistancePx();
                 } else {
                     leftWareX = x;
                 }
@@ -325,8 +322,10 @@ public class SeekBarView extends View {
             } else if (x >= getWidth() - DEFAULT_PADDING_SPACING) { // 超出右边界
                 rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
             } else {
-                if (x - space < leftWareX) {
-                    rightWareX = leftWareX + space;
+                int leftSeek = getCurrentSeek(leftWareX);
+                int currentSeek = getCurrentSeek(x);
+                if (currentSeek - distance < leftSeek) {
+                    rightWareX = leftWareX + getCurrentDistancePx();
                 } else {
                     rightWareX = x;
                 }
@@ -434,27 +433,13 @@ public class SeekBarView extends View {
         postInvalidate();
     }
 
-    private void setLeft() {
+    private void setSeekLeft() {
         if (left > 0) {
             if (spacings == null || spacings.length == 0) {
                 float num = (float) (left) / maxValue;
                 leftWareX = (int) (num * lastWidth + DEFAULT_PADDING_SPACING);
             } else {
-                // 从左到右计算出当前值属于哪个刻度内
-                int position = getCurrentSpace(left);
-
-                // 计算此刻度之前的总和长度px
-                int resultPx = oneSpace * position;
-
-                // 计算当前刻度内的长度px
-                int lastLeft = left - minValue;
-                for (int i = 0; i < position; i++) {
-                    lastLeft -= spacings[i];
-                }
-                // 总的px
-                resultPx += (float) lastLeft / (float) spacings[position] * oneSpace;
-                // 加上前面的默认间距值
-                leftWareX = resultPx + DEFAULT_PADDING_SPACING;
+                leftWareX = calculatePx(left);
             }
         } else {
             leftWareX = DEFAULT_PADDING_SPACING;
@@ -470,23 +455,13 @@ public class SeekBarView extends View {
         postInvalidate();
     }
 
-    private void setRight() {
+    private void setSeekRight() {
         if (right > 0) {
             if (spacings == null || spacings.length == 0) {
                 float num = (float) (right) / maxValue;
                 rightWareX = (int) (num * lastWidth + DEFAULT_PADDING_SPACING);
             } else {
-                // 同left
-                int position = getCurrentSpace(right);
-
-                int resultPx = oneSpace * position;
-
-                int lastRight = right - minValue;
-                for (int i = 0; i < position; i++) {
-                    lastRight -= spacings[i];
-                }
-                resultPx += (float) lastRight / (float) spacings[position] * oneSpace;
-                rightWareX = resultPx + DEFAULT_PADDING_SPACING;
+                rightWareX = calculatePx(right);
             }
         } else {
             rightWareX = getWidth() - DEFAULT_PADDING_SPACING;
@@ -509,36 +484,68 @@ public class SeekBarView extends View {
         postInvalidate();
     }
 
-    /**
-     * 设置左右指示器中间最大的距离
-     * 实际显示的距离
-     */
-    private void setMaxLeftDistanceRight() {
-        if (spacings == null || spacings.length == 0) {
-            int num = lastWidth / spacingValue;
-            distancePx = new int[num];
-            int d = (int) ((float) distance / (float) spacingValue * oneSpace);
-            for (int i = 0; i < num; i++) {
-                distancePx[i] = d;
-            }
-        } else {
-            distancePx = new int[spacings.length];
-            for (int i = 0; i < spacings.length; i++) {
-                int d = (int) ((float) distance / (float) spacings[i] * oneSpace);
-                distancePx[i] = d;
-            }
-        }
-    }
-
     public void setLeftDistanceRight(int distance) {
         if (distance >= 0) {
             this.distance = distance;
-            setMaxLeftDistanceRight();
+        } else {
+            distance = DEFAULT_LEFT_RIGHT_SPACE;
         }
     }
 
     /**
-     * 获取当前所在的刻度值
+     * 避免滑动过多
+     * 当拖动左边指示器滑动时，以右边指示器为标准计算distance对应的px值
+     * 当拖动右边指示器滑动时，以左边指示器为标准计算distance对应的px值
+     * 可变刻度计算有误差（误差为1），不可变刻度正常
+     */
+    private int getCurrentDistancePx() {
+        int distanceToPx = 0;
+        if (clickType == CLICK_TYPE_LEFT) {
+            if (spacings == null || spacings.length == 0) {
+                distanceToPx = (int) ((float) distance / (float) spacingValue * oneSpace);
+            } else {
+                int currentSeek = getCurrentSeek(rightWareX);
+                int leftSeek = currentSeek - distance;
+
+                distanceToPx = rightWareX - calculatePx(leftSeek);
+            }
+        } else if (clickType == CLICK_TYPE_RIGHT) {
+            if (spacings == null || spacings.length == 0) {
+                distanceToPx = (int) ((float) distance / (float) spacingValue * oneSpace);
+            } else {
+                int currentSeek = getCurrentSeek(leftWareX);
+                int rightSeek = currentSeek + distance;
+
+                distanceToPx = calculatePx(rightSeek) - leftWareX;
+            }
+        }
+        if (distanceToPx < 0) {
+            distanceToPx = 0;
+        }
+
+        return distanceToPx;
+    }
+
+    /**
+     * 计算刻度值对应的px值
+     * 仅可变刻度
+     */
+    private int calculatePx(int length) {
+        int position = getCurrentSpace(length);
+
+        int resultPx = oneSpace * position;
+
+        int last = length - minValue;
+        for (int i = 0; i < position; i++) {
+            last -= spacings[i];
+        }
+        resultPx += (float) last / (float) spacings[position] * oneSpace;
+        return resultPx + DEFAULT_PADDING_SPACING;
+    }
+
+    /**
+     * 获取可变长度刻度当前所在的刻度值
+     * length对应的为刻度值
      */
     private int getCurrentSpace(int length) {
         int position = 0;
@@ -553,23 +560,29 @@ public class SeekBarView extends View {
         return position;
     }
 
-    private int getCurrent(int x) {
-        int size;
-        if (spacings == null || spacings.length == 0) {
-            size = (maxValue - minValue) / spacingValue;
-        } else {
-            size = spacings.length;
-        }
-        int position = 0;
-        int result = DEFAULT_PADDING_SPACING;
-        for (int i = 0; i < size; i++) {
-            result += oneSpace;
-            if (result >= x) {
-                position = i;
-                break;
-            }
-        }
-        return position;
+    /**
+     * 设置指示器大小
+     */
+    public void setBitmapSize(int width, int height) {
+        upwardBitmap = zoomImg(upwardBitmap, width, height);
+        downwardBitmap = zoomImg(downwardBitmap, width, height);
+
+        requestLayout();
+        postInvalidate();
+    }
+
+    private Bitmap zoomImg(Bitmap bm, int newWidth, int newHeight) {
+        // 获得图片的宽高
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        // 计算缩放比例
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // 得到新的图片
+        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
     }
 
     /**
